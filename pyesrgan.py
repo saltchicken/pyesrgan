@@ -1,5 +1,7 @@
 import subprocess, argparse
 import os
+from PIL import Image
+import tempfile
 
 def main():
     parser = argparse.ArgumentParser(description="Simple ESRGAN implementation")
@@ -9,15 +11,19 @@ def main():
     args = parser.parse_args()
     run_esrgan(args.input, args.output)
     
-    
-    
-def run_esrgan(input, output, scale='2'):
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    executable_path = os.path.join(current_directory, 'esrgan/realesrgan-ncnn-vulkan.exe')
-    parameters = ['-i', input, '-o', output, '-n', 'x4', '-s', scale]
+def run_esrgan(input, output, scale='3'):
+    with tempfile.TemporaryDirectory() as temp_dir:
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        executable_path = os.path.join(current_directory, 'esrgan/realesrgan-ncnn-vulkan.exe')
+        parameters = ['-i', input, '-o', temp_dir + '/tmp.png', '-n', 'x4']
+            
+        subprocess.run([executable_path] + parameters)
+        image = Image.open(temp_dir + '/tmp.png')
+        width, height = image.size
+        new_width = int(width / 2)
+        new_height = int(height / 2)
+        resized_image = image.resize((new_width, new_height))
+        resized_image.save(output)
         
-    subprocess.run([executable_path] + parameters)
-    
-    
 if __name__ == "__main__":
     main()

@@ -11,7 +11,7 @@ def main():
     args = parser.parse_args()
     run_esrgan(args.input, args.output)
     
-def run_esrgan(input, output, scale='3'):
+def run_esrgan(input, output, scale=2):
     with tempfile.TemporaryDirectory() as temp_dir:
         current_directory = os.path.dirname(os.path.abspath(__file__))
         executable_path = os.path.join(current_directory, 'esrgan/realesrgan-ncnn-vulkan.exe')
@@ -20,8 +20,8 @@ def run_esrgan(input, output, scale='3'):
         subprocess.run([executable_path] + parameters)
         image = Image.open(temp_dir + '/tmp.png')
         width, height = image.size
-        new_width = int(width / 2)
-        new_height = int(height / 2)
+        new_width = int(width / (4 / scale))
+        new_height = int(height / (4 / scale))
         resized_image = image.resize((new_width, new_height))
         resized_image.save(output)
         

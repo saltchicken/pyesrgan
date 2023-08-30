@@ -12,6 +12,7 @@ def main():
     run_esrgan(args.input, args.output)
     
 def run_esrgan(input, output, scale=2):
+    # TODO make sure scale is not negative or ridiculous
     with tempfile.TemporaryDirectory() as temp_dir:
         current_directory = os.path.dirname(os.path.abspath(__file__))
         executable_path = os.path.join(current_directory, 'esrgan/realesrgan-ncnn-vulkan.exe')

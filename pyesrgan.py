@@ -11,10 +11,10 @@ def main():
     
     
     
-def run_esrgan(input, output):
+def run_esrgan(input, output, scale=2):
     current_directory = os.path.dirname(os.path.abspath(__file__))
     executable_path = os.path.join(current_directory, 'esrgan/realesrgan-ncnn-vulkan.exe')
-    parameters = ['-i', input, '-o', output, '-n', 'x4']
+    parameters = ['-i', input, '-o', output, '-n', 'x4', '-s', scale]
         
     subprocess.run([executable_path] + parameters)
     

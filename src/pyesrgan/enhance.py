@@ -8,6 +8,7 @@ def run_esrgan(input, output, scale=2, resolution=None):
     with tempfile.TemporaryDirectory() as temp_dir:
         current_directory = os.path.dirname(os.path.abspath(__file__))
         executable_path = os.path.join(current_directory, 'esrgan/realesrgan-ncnn-vulkan.exe')
+        print(f"Executable Path: {executable_path}")
         parameters = ['-i', input, '-o', temp_dir + '/tmp.png', '-n', 'x4']
             
         subprocess.run([executable_path] + parameters)

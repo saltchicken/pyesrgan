@@ -15,3 +15,7 @@ pyesrgan = "pyesrgan.__main__:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+pyesrgan = [
+    "src/pyesrgan/**/*"
+]
